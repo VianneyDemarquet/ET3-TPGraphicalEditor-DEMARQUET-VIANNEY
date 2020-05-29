@@ -1,0 +1,6 @@
+1.
+Pour réaliser une architecture MVC de cette application il faut que toute les vue passe par le controleur pour interagir avec le model.
+cella veut donc dire qu'il faudrait créé une interface de laquelle hériterais les formes géométrique, qui contiendrais une référence vers le controleur.
+Ainsi tout les événements déclencher par les forme géométrique passerais par le Controleur pour remonter au Modèle.
+
+en régle général, il faut que les informations de la vue, soit transmise au controleur par le modèle qui va les traitée pui notifier les vue du changements.
