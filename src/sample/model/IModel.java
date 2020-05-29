@@ -1,4 +1,4 @@
-package sample;
+package sample.model;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -77,4 +77,14 @@ public interface IModel {
      * clone la figure selectionné
      */
     public void cloneFigure();
+
+    /**
+     * annule l'action précédente
+     */
+    public void undo();
+
+    /**
+     * rétablie l'action précédente
+     */
+    public void redo();
 }

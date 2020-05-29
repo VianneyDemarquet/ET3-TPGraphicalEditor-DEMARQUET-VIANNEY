@@ -4,3 +4,7 @@ cella veut donc dire qu'il faudrait créé une interface de laquelle hériterais
 Ainsi tout les événements déclencher par les forme géométrique passerais par le Controleur pour remonter au Modèle.
 
 en régle général, il faut que les informations de la vue, soit transmise au controleur par le modèle qui va les traitée pui notifier les vue du changements.
+
+2. création d'une interface représentant une liste doublement chainer qui va être hériter par une classe qui va contenir dans une variable undo précédente une référence vers l'action précédente jusqu'a qu'il y en ai plus de même pour redo et les action deja annuler.
+quand on va effectuer un undo, cella va retourner le maillon de la chaine contenue dans la variable undo et donc modifier la chaine.
+seul sera implémenter le undo redo pour le déplacement de figure.

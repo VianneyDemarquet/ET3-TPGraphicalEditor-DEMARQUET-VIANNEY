@@ -1,4 +1,4 @@
-package sample;
+package sample.controller;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import sample.model.Model;
 
 public class Controller {
 
@@ -26,6 +27,12 @@ public class Controller {
 
     @FXML
     Pane pane;
+
+    @FXML
+    Button undo;
+
+    @FXML
+    Button redo;
 
     public Controller(){
         myModel = new Model();
@@ -70,6 +77,18 @@ public class Controller {
         clone.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 myModel.cloneFigure();
+            }
+        });
+
+        undo.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                myModel.undo();
+            }
+        });
+
+        redo.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                myModel.redo();
             }
         });
 

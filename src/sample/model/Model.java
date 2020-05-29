@@ -1,4 +1,4 @@
-package sample;
+package sample.model;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -8,6 +8,9 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import sample.command.ICommand;
+import sample.command.SaveMove;
+import sample.model.IModel;
 
 
 public class Model implements IModel {
@@ -15,11 +18,13 @@ public class Model implements IModel {
     private Pane pane;
     private Shape figure;
     private Color couleur;
+    private ICommand save;
 
     public Model(){
         super();
         mode = "Select/Move";
         couleur = Color.BLACK;
+        save = new SaveMove();
     }
 
     /**
@@ -69,6 +74,12 @@ public class Model implements IModel {
                         }
                     });
                 }
+            }
+        });
+        s.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                selectShape(s);
             }
         });
         resetSelect();
@@ -138,6 +149,7 @@ public class Model implements IModel {
         if (mode.equals("Select/Move")){
             resetSelect();
             currentShape(s);
+            save = save.save(s);
             s.setStroke(Color.RED);
             return true;
         }else{
@@ -191,6 +203,7 @@ public class Model implements IModel {
     @Override
     public void resetSelect() {
         if (figure != null) {
+            save = save.save(figure);
             figure.setStroke(figure.getFill());
             figure = null;
         }
@@ -223,5 +236,21 @@ public class Model implements IModel {
             drawShape(new Line(l.getStartX()+10,l.getStartY()+10,l.getEndX()+10,l.getEndY()+10));
         }
         figure.setStroke(Color.RED);
+    }
+
+    /**
+     * annule l'action précédente
+     */
+    @Override
+    public void undo() {
+        save = save.GetUndo();
+    }
+
+    /**
+     * rétablie l'action précédente
+     */
+    @Override
+    public void redo() {
+        save = save.GetRedo();
     }
 }
