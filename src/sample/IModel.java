@@ -67,4 +67,14 @@ public interface IModel {
      * deselectionne la forme surligner précédament
      */
     public void resetSelect();
+
+    /**
+     * suprime la figure selectionné
+     */
+    public void remove();
+
+    /**
+     * clone la figure selectionné
+     */
+    public void cloneFigure();
 }

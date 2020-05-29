@@ -61,6 +61,18 @@ public class Controller {
             }
         });
 
+        delete.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                myModel.remove();
+            }
+        });
+
+        clone.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                myModel.cloneFigure();
+            }
+        });
+
         myModel.addPane(pane);
     }
 }

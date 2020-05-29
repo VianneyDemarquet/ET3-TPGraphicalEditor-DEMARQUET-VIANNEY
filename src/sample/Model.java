@@ -9,20 +9,16 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-import java.util.ArrayList;
-
 
 public class Model implements IModel {
     private String mode;
     private Pane pane;
     private Shape figure;
-    private ArrayList<Shape> shape;
     private Color couleur;
 
     public Model(){
         super();
         mode = "Select/Move";
-        shape = new ArrayList<>();
         couleur = Color.BLACK;
     }
 
@@ -32,6 +28,7 @@ public class Model implements IModel {
     @Override
     public void changeMode(String m) {
         mode = m;
+        resetSelect();
     }
 
     /**
@@ -42,7 +39,6 @@ public class Model implements IModel {
      */
     @Override
     public void addFigure(double x, double y) {
-        resetSelect();
         if (mode.equals("Ellipse")){
             drawShape(new Ellipse(x,y,10.0,10.0));
         }else if (mode.equals("Rectangle")){
@@ -60,8 +56,8 @@ public class Model implements IModel {
     @Override
     public void drawShape(Shape s) {
         s.setFill(couleur);
+        s.setStroke(couleur);
         pane.getChildren().add(s);
-        shape.add(s);
         s.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -71,12 +67,11 @@ public class Model implements IModel {
                         public void handle(MouseEvent e) {
                             move(e.getSceneX() - 153., e.getSceneY());
                         }
-
-                        ;
                     });
                 }
             }
         });
+        resetSelect();
         currentShape(s);
     }
 
@@ -114,6 +109,12 @@ public class Model implements IModel {
         String cl = figure.getClass().getName();
         if (cl.equals("javafx.scene.shape.Ellipse")){
            Ellipse e = (Ellipse) figure;
+            if(x < 0){
+                x = -x;
+            }
+            if(y < 0){
+                y = -y;
+            }
            e.setRadiusX(x);
            e.setRadiusY(y);
         }else if(cl.equals("javafx.scene.shape.Rectangle")){
@@ -136,7 +137,7 @@ public class Model implements IModel {
     public boolean selectShape(Shape s) {
         if (mode.equals("Select/Move")){
             resetSelect();
-            figure = s;
+            currentShape(s);
             s.setStroke(Color.RED);
             return true;
         }else{
@@ -191,6 +192,36 @@ public class Model implements IModel {
     public void resetSelect() {
         if (figure != null) {
             figure.setStroke(figure.getFill());
+            figure = null;
         }
+    }
+
+    @Override
+    public void remove() {
+        if (figure != null || !mode.equals("Select/Move")) {
+            pane.getChildren().remove(figure);
+        }
+    }
+
+    /**
+     * clone la figure selectionné
+     */
+    @Override
+    public void cloneFigure() {
+        if(figure == null || !mode.equals("Select/Move")){
+            return;
+        }
+        String cl = figure.getClass().getName();
+        if (cl.equals("javafx.scene.shape.Ellipse")){
+            Ellipse e = (Ellipse) figure;
+            drawShape(new Ellipse(e.getCenterX()+10,e.getCenterY()+10, e.getRadiusX(),e.getRadiusY()));
+        }else if(cl.equals("javafx.scene.shape.Rectangle")){
+            Rectangle r = (Rectangle) figure;
+            drawShape(new Rectangle(r.getX()+10,r.getY()+10,r.getWidth(),r.getHeight()));
+        }else if(cl.equals("javafx.scene.shape.Line")){
+            Line l = (Line) figure;
+            drawShape(new Line(l.getStartX()+10,l.getStartY()+10,l.getEndX()+10,l.getEndY()+10));
+        }
+        figure.setStroke(Color.RED);
     }
 }

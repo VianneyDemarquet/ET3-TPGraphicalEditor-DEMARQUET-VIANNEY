@@ -55,7 +55,7 @@
             <Insets />
          </opaqueInsets>
       </VBox>
-      <Pane fx:id="pane" prefHeight="407.0" prefWidth="452.0" />
+      <Pane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="407.0" prefWidth="458.0" />
    </children>
    <opaqueInsets>
       <Insets />
