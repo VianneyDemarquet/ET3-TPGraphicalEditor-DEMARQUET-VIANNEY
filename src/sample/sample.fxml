@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -10,7 +9,7 @@
       <VBox prefHeight="400.0" prefWidth="153.0" spacing="20.0" style="-fx-border-color:#d3d3d3; -fx-border-right-insets:3;">
          <children>
             <Label alignment="CENTER" prefHeight="60.0" prefWidth="209.0" style="-fx-background-color:#d3d3d3;" text="Option" />
-            <RadioButton fx:id="select" mnemonicParsing="false" prefHeight="17.0" prefWidth="145.0" text="Select/Move">
+            <RadioButton fx:id="select" mnemonicParsing="false" prefHeight="17.0" prefWidth="145.0" selected="true" text="Select/Move">
                <toggleGroup>
                   <ToggleGroup fx:id="button" />
                </toggleGroup>
@@ -52,11 +51,7 @@
             <Insets />
          </opaqueInsets>
       </VBox>
-      <Pane fx:id="pane">
-         <children>
-            <Canvas fx:id="canvas" height="409.0" width="447.0" />
-         </children>
-      </Pane>
+      <Pane fx:id="pane" />
    </children>
    <opaqueInsets>
       <Insets />

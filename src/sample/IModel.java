@@ -1,9 +1,7 @@
 package sample;
 
-import javafx.scene.canvas.Canvas;
-
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
-
 
 public interface IModel {
 
@@ -26,10 +24,10 @@ public interface IModel {
     public void drawShape(Shape s);
 
     /**
-     * Ajoute une référence vers le canvas de dessin
-     * @param c
+     * Ajoute une référence vers le pane de dessin
+     * @param p
      */
-    public void addCanvas(Canvas c);
+    public void addPane(Pane p);
 
     /**
      * Selectionne la figure courante

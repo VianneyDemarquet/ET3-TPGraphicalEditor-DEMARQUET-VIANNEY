@@ -1,18 +1,18 @@
 package sample;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import java.awt.*;
+import java.util.EventListener;
 
 public class Model implements IModel {
     private String mode;
-    private Canvas canvas;
+    private Pane pane;
     private Shape figure;
-    GraphicsContext gc;
 
     public Model(){
         super();
@@ -35,17 +35,13 @@ public class Model implements IModel {
      */
     @Override
     public void addFigure(double x, double y) {
-        gc = canvas.getGraphicsContext2D();
 
         if (mode.equals("Ellipse")){
-            gc.fillOval(x,y,10.,10.);
-            //drawShape(new Ellipse(x,y,10.0,10.0));
+            drawShape(new Ellipse(x,y,10.0,10.0));
         }else if (mode.equals("Rectangle")){
-            //drawShape(new Rectangle(x,y,0.0,0.0));
-            gc.fillRect(x,y,0.,0.);
+            drawShape(new Rectangle(x,y,0.0,0.0));
         }else if (mode.equals("Line")){
-            //drawShape(new Line(x,y,x,y));
-            gc.strokeLine(x,y,x,y);
+            drawShape(new Line(x,y,x,y));
         }
     }
 
@@ -56,19 +52,18 @@ public class Model implements IModel {
      */
     @Override
     public void drawShape(Shape s) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
+        pane.getChildren().add(s);
         currentShape(s);
     }
 
     /**
      * Ajoute une référence vers le pane de dessin
      *
-     * @param c
+     * @param p
      */
     @Override
-    public void addCanvas(Canvas c) {
-        canvas = c;
+    public void addPane(Pane p) {
+        pane = p;
     }
 
     /**
@@ -89,16 +84,23 @@ public class Model implements IModel {
      */
     @Override
     public void resize(double x, double y) {
-        if (mode.equals("Ellipse")){
-
-            gc.fillOval(x,y,10.,10.);
-            //drawShape(new Ellipse(x,y,10.0,10.0));
-        }else if (mode.equals("Rectangle")){
-            //drawShape(new Rectangle(x,y,0.0,0.0));
-            gc.fillRect(x,y,0.,0.);
-        }else if (mode.equals("Line")){
-            //drawShape(new Line(x,y,x,y));
-            gc.strokeLine(x,y,x,y);
+        if (mode.equals("Select/Move")){
+            return;
+        }
+        String cl = figure.getClass().getName();
+        if (cl.equals("javafx.scene.shape.Ellipse")){
+           Ellipse e = (Ellipse) figure;
+           e.setRadiusX(x);
+           e.setRadiusY(y);
+        }else if(cl.equals("javafx.scene.shape.Rectangle")){
+            System.out.println(x+" "+y);
+            Rectangle r = (Rectangle) figure;
+            r.setHeight(y);
+            r.setWidth(x);
+        }else if(cl.equals("javafx.scene.shape.Line")){
+            Line l = (Line) figure;
+            l.setEndX(-x);
+            l.setEndY(-y);
         }
     }
 }

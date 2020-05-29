@@ -3,12 +3,9 @@ package sample;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-
 
 public class Controller {
 
@@ -29,8 +26,6 @@ public class Controller {
     @FXML
     Pane pane;
 
-    @FXML
-    Canvas canvas;
     public Controller(){
         myModel = new Model();
     }
@@ -47,11 +42,11 @@ public class Controller {
         pane.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                myModel.addFigure(event.getSceneX()-153.0, event.getSceneY());
+                myModel.addFigure(event.getSceneX()-153., event.getSceneY());
                 pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
-                        double x = e.getSceneX() - event.getSceneX()-153.0;
+                        double x = e.getSceneX() - event.getSceneX();
                         double y = e.getSceneY() - event.getSceneY();
                         myModel.resize(x,y);
                     };
@@ -59,6 +54,6 @@ public class Controller {
             }
         });
 
-        myModel.addCanvas(canvas);
+        myModel.addPane(pane);
     }
 }
