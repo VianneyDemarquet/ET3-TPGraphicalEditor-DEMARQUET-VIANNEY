@@ -1,22 +1,29 @@
 package sample;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-import java.awt.*;
-import java.util.EventListener;
+import java.util.ArrayList;
+
 
 public class Model implements IModel {
     private String mode;
     private Pane pane;
     private Shape figure;
+    private ArrayList<Shape> shape;
+    private Color couleur;
 
     public Model(){
         super();
-        mode = "Select/Mode";
+        mode = "Select/Move";
+        shape = new ArrayList<>();
+        couleur = Color.BLACK;
     }
 
     /**
@@ -35,7 +42,7 @@ public class Model implements IModel {
      */
     @Override
     public void addFigure(double x, double y) {
-
+        resetSelect();
         if (mode.equals("Ellipse")){
             drawShape(new Ellipse(x,y,10.0,10.0));
         }else if (mode.equals("Rectangle")){
@@ -52,7 +59,24 @@ public class Model implements IModel {
      */
     @Override
     public void drawShape(Shape s) {
+        s.setFill(couleur);
         pane.getChildren().add(s);
+        shape.add(s);
+        s.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(selectShape(s)) {
+                    s.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent e) {
+                            move(e.getSceneX() - 153., e.getSceneY());
+                        }
+
+                        ;
+                    });
+                }
+            }
+        });
         currentShape(s);
     }
 
@@ -93,14 +117,80 @@ public class Model implements IModel {
            e.setRadiusX(x);
            e.setRadiusY(y);
         }else if(cl.equals("javafx.scene.shape.Rectangle")){
-            System.out.println(x+" "+y);
             Rectangle r = (Rectangle) figure;
             r.setHeight(y);
             r.setWidth(x);
         }else if(cl.equals("javafx.scene.shape.Line")){
             Line l = (Line) figure;
-            l.setEndX(-x);
-            l.setEndY(-y);
+            l.setEndX(l.getStartX()+x);
+            l.setEndY(l.getStartY()+y);
+        }
+    }
+
+    /**
+     * change la figure courante avec la figure selectionner
+     *
+     * @param s figure a selectionner
+     */
+    @Override
+    public boolean selectShape(Shape s) {
+        if (mode.equals("Select/Move")){
+            resetSelect();
+            figure = s;
+            s.setStroke(Color.RED);
+            return true;
+        }else{
+            resetSelect();
+            return false;
+        }
+    }
+
+    /**
+     * Déplace une figure
+     *
+     * @param x déplacement en x
+     * @param y déplacement en y
+     */
+    @Override
+    public void move(double x, double y) {
+        String cl = figure.getClass().getName();
+        if (cl.equals("javafx.scene.shape.Ellipse")){
+            Ellipse e = (Ellipse) figure;
+            e.setCenterX(x);
+            e.setCenterY(y);
+        }else if(cl.equals("javafx.scene.shape.Rectangle")){
+            Rectangle r = (Rectangle) figure;
+            r.setX(x);
+            r.setY(y);
+        }else if(cl.equals("javafx.scene.shape.Line")){
+            Line l = (Line) figure;
+            l.setTranslateX(x);
+            l.setTranslateY(y);
+        }
+    }
+
+    /**
+     * modifie la couleur d'un objet ou de dessein de base
+     *
+     * @param c couleur
+     */
+    @Override
+    public void couleur(Color c) {
+        couleur = c;
+        if(mode.equals("Select/Move")){
+            if (figure != null){
+                figure.setFill(couleur);
+            }
+        }
+    }
+
+    /**
+     * deselectionne la forme surligner précédament
+     */
+    @Override
+    public void resetSelect() {
+        if (figure != null) {
+            figure.setStroke(figure.getFill());
         }
     }
 }

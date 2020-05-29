@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
@@ -36,6 +37,9 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
+               <value>
+                  <Color />
+               </value>
             </ColorPicker>
             <Separator prefHeight="0.0" prefWidth="151.0" />
             <Button fx:id="delete" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" text="Delete" textAlignment="CENTER">
@@ -51,7 +55,7 @@
             <Insets />
          </opaqueInsets>
       </VBox>
-      <Pane fx:id="pane" />
+      <Pane fx:id="pane" prefHeight="407.0" prefWidth="452.0" />
    </children>
    <opaqueInsets>
       <Insets />

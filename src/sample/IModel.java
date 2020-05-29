@@ -1,7 +1,9 @@
 package sample;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
+
 
 public interface IModel {
 
@@ -41,4 +43,28 @@ public interface IModel {
      * @param y
      */
     public void resize(double x, double y);
+
+    /**
+     * change la figure courante avec la figure selectionner
+     * @param s figure a selectionner
+     */
+    public boolean selectShape(Shape s);
+
+    /**
+     * Déplace une figure
+     * @param x déplacement en x
+     * @param y déplacement en y
+     */
+    public void move(double x, double y);
+
+    /**
+     * modifie la couleur d'un objet ou de dessein de base
+     * @param c couleur
+     */
+    public void couleur(Color c);
+
+    /**
+     * deselectionne la forme surligner précédament
+     */
+    public void resetSelect();
 }

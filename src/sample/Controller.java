@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -51,6 +52,12 @@ public class Controller {
                         myModel.resize(x,y);
                     };
                 });
+            }
+        });
+
+        color.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                myModel.couleur(color.getValue());
             }
         });
 
